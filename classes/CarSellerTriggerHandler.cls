@@ -29,6 +29,7 @@ global with sharing class CarSellerTriggerHandler {
         }
     }
 
+    //support method to update car with new holder
     private static void updateCar (Pricebook__c pb) {
         //get car object to update
         Car__c carToUpdate = [SELECT id, Holder__c FROM Car__c WHERE Model__c = :pb.Model__c LIMIT 1];
