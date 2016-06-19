@@ -40,7 +40,6 @@ global with sharing class CarSellerTriggerHandler {
                     pbNew.Status__c = 'Previously used';
                     changeCar(pbNew);
                 }
-
             }
         }
 
