@@ -57,7 +57,6 @@ global with sharing class CarSellerTriggerHandler {
         } else {
             //take account objects name and put it in car object holder field
             carToUpdate.Holder__c = [SELECT Name FROM Account WHERE id = :pb.Holder__c LIMIT 1].Name;
-            //carToUpdate.Holder__c = pb.Holder__r.Name;
         }
 
         //adding changed car object to car list for update in future
