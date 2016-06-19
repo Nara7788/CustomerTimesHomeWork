@@ -1,7 +1,3 @@
-/**
- * Created by Nara on 19.06.2016.
- */
-
-trigger ChildObjectTrigger on AcceptedEventRelation (before insert, before update) {
-
+trigger ChildObjectTrigger on ChildObject__c (before update) {
+    SendMessageTriggerHandler.sendMessage(Trigger.new, Trigger.old);
 }
