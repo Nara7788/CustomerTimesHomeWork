@@ -1,7 +1,3 @@
-/**
- * Created by Nara on 19.06.2016.
- */
-
-trigger GrandParentObjectTrigger on AcceptedEventRelation (before insert, before update) {
-
+trigger GrandParentObjectTrigger on GrandParentObject__c (before update) {
+    SendMessageTriggerHandler.sendMessage(Trigger.new, Trigger.old);
 }
