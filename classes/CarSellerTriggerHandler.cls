@@ -17,9 +17,15 @@ global with sharing class CarSellerTriggerHandler {
     public static void beforeUpdate(List<Pricebook__c> triggerNew, List<Pricebook__c> triggerOld) {
         for (Pricebook__c pbOld : triggerOld) {
             for (Pricebook__c pbNew : triggerNew) {
-                //and if Holder was still null after insert, set status to 'sold'
+                //and if Holder was still null after insert and status was 'new', set status to 'sold'
                 if (pbOld.Holder__c == null && pbNew.Holder__c != null) {
-                    pbNew.Status__c = 'Sold';
+                    //or set Holder to 'Previously used' if Status was not 'new'
+                    if (pbOld.Status__c != 'New') {
+                        pbNew.Status__c = 'Previously used';
+                    } else {
+                        pbNew.Status__c = 'Sold';
+                    }
+
                     changeCar(pbNew);
                 }
 
@@ -51,6 +57,7 @@ global with sharing class CarSellerTriggerHandler {
         } else {
             //take account objects name and put it in car object holder field
             carToUpdate.Holder__c = [SELECT Name FROM Account WHERE id = :pb.Holder__c LIMIT 1].Name;
+            //carToUpdate.Holder__c = pb.Holder__r.Name;
         }
 
         //adding changed car object to car list for update in future
