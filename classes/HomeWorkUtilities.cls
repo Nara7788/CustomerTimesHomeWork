@@ -48,6 +48,19 @@ public with sharing class HomeWorkUtilities {
         createParentsChilds(1, 4);
     }
 
+    public static void pointFive() {
+        List<Test_Child__c> children = new List<Test_Child__c>();
+        List<Test_Parent__c> parents = [SELECT id, (SELECT Count__c FROM Test_Childs__r) FROM Test_Parent__c];
+        for (Test_Parent__c prnt : parents) {
+            Test_Child__c chld = prnt.Test_Childs__r.get(0);
+            chld.Count__c = 777;
+            children.add(chld);
+        }
+        update children;
+
+        System.debug([SELECT Name FROM Test_Child__c WHERE NaraSmith__Count__c = 777]);
+    }
+
     public static void pointSix() {
         Map<String,List<Test_Child__c>> pcMap = new Map<String, List<Test_Child__c>>();
         List<Test_Parent__c> pList = [SELECT id, (SELECT id, name FROM Test_Childs__r) FROM Test_Parent__c ];
