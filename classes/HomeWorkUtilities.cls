@@ -3,7 +3,7 @@ public with sharing class HomeWorkUtilities {
     public static void createParentsChilds(Integer parents, Integer childs) {
         createChilds(createParents(parents), childs);
     }
-    
+
     //support method for createParentsChilds. Create Parents records, insert it to DB 
     //and return for createChilds method
     private static List<Test_Parent__c> createParents(Integer count) {
@@ -36,12 +36,13 @@ public with sharing class HomeWorkUtilities {
         return parentsSet;
     }
 
-    public static void pointThree() {
+    public static List<Test_Child__c> pointThree() {
         Set<Test_Parent__c> parentsSet = pointTwo();
         List<Test_Child__c> childsList = new List<Test_Child__c>();
         for (Test_Parent__c par : parentsSet) {
-            childsList.addAll([SELECT Parent__c, name FROM Test_Child__c WHERE Parent__c = :par.id]);
+            childsList.addAll([SELECT Parent__c, name, Count__c FROM Test_Child__c WHERE Parent__c = :par.id]);
         }
+        return childsList;
     }
 
     public static void pointFour() {
@@ -61,15 +62,27 @@ public with sharing class HomeWorkUtilities {
         System.debug([SELECT Name FROM Test_Child__c WHERE NaraSmith__Count__c = 777]);
     }
 
-    public static void pointSix() {
-        Map<String,List<Test_Child__c>> pcMap = new Map<String, List<Test_Child__c>>();
-        List<Test_Parent__c> pList = [SELECT id, (SELECT id, name FROM Test_Childs__r) FROM Test_Parent__c ];
-        for(Test_Parent__c par : pList) {
+    public static Map<String, List<Test_Child__c>> pointSix() {
+        Map<String, List<Test_Child__c>> pcMap = new Map<String, List<Test_Child__c>>();
+        List<Test_Parent__c> pList = [SELECT id, (SELECT id, name FROM Test_Childs__r) FROM Test_Parent__c];
+        for (Test_Parent__c par : pList) {
             pcMap.put(par.id, par.Test_Childs__r);
         }
 
-        for(String s : pcMap.keySet()) {
+        /*for (String s : pcMap.keySet()) {
             System.debug(s + ' >>> ' + pcMap.get(s));
+        }*/
+        return pcMap;
+    }
+
+    public static void pointSeven() {
+        List<Test_Child__c> children = pointThree();
+        for (Test_Child__c child : children) {
+            if (child.Count__c == null) {
+                child.Count__c = 555;
+            }
         }
+
+        update children;
     }
 }
