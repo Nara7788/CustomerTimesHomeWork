@@ -58,8 +58,8 @@
 
 <!--EXERCISE 1.1
 <apex:page standardController="Account" sideBar="false">
-  <p>Account ID: {!account.id}</p>
-  <p>Account Name: {!account.name}</p>
+    <p>Account ID: {!account.id}</p>
+    <p>Account Name: {!account.name}</p>
 </apex:page>-->
 
 <!--ACCOUNT OBJECT ID = 00158000007E055-->
